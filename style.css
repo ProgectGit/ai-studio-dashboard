@@ -132,12 +132,23 @@ button {
 .panel-heading,
 .modal-heading,
 .progress-meta,
-.card-actions,
 .item-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+}
+
+.card-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr));
+  gap: 0.75rem;
+}
+
+.project-card .card-actions button {
+  min-width: 0;
+  width: 100%;
+  padding-inline: 0.65rem;
 }
 
 h2,
