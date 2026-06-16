@@ -121,7 +121,7 @@ button {
 
 .projects-area {
   grid-area: projects;
-  min-height: 30rem;
+  min-height: 0;
   padding: 1rem;
   border-radius: 8px;
 }
@@ -203,12 +203,15 @@ textarea {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 24rem));
+  align-items: start;
+  justify-content: start;
   gap: 1rem;
 }
 
 .project-card {
   display: grid;
+  width: 100%;
   gap: 0.9rem;
   padding: 1rem;
   border: 1px solid var(--border);
@@ -218,6 +221,7 @@ textarea {
 
 .project-card h3 {
   margin: 0;
+  min-width: 0;
 }
 
 .status-pill,
