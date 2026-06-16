@@ -126,7 +126,11 @@ const elements = {
   filterAiModule: $("#filterAiModule")
 };
 
-document.addEventListener("DOMContentLoaded", init);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
 
 function init() {
   fillSelect(elements.projectStatus, PROJECT_STATUSES, "", PROJECT_STATUS_LABELS);
@@ -177,13 +181,13 @@ function bindEvents() {
 }
 
 async function connectSupabase() {
+  const supabaseUrl = window.SUPABASE_URL;
+  const supabaseAnonKey = window.SUPABASE_ANON_KEY;
   const isMissingConfig =
-    typeof SUPABASE_URL === "undefined" ||
-    typeof SUPABASE_ANON_KEY === "undefined" ||
-    !SUPABASE_URL ||
-    !SUPABASE_ANON_KEY ||
-    SUPABASE_URL.includes("YOUR_") ||
-    SUPABASE_ANON_KEY.includes("YOUR_");
+    !supabaseUrl ||
+    !supabaseAnonKey ||
+    supabaseUrl.includes("YOUR_") ||
+    supabaseAnonKey.includes("YOUR_");
 
   if (isMissingConfig || !window.supabase) {
     showConnectionError();
@@ -191,7 +195,7 @@ async function connectSupabase() {
     return;
   }
 
-  state.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  state.supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
   await loadAllData();
 }
 
