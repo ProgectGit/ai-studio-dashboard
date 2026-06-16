@@ -215,7 +215,7 @@ textarea {
   display: grid;
   width: 100%;
   gap: 0.9rem;
-  padding: 1rem;
+  padding: 1rem 1.25rem 1rem 1rem;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--panel-2);
@@ -249,6 +249,21 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
+}
+
+.project-card .progress-meta {
+  min-width: 0;
+  padding-right: 1rem;
+}
+
+.project-card .progress-meta span {
+  min-width: 5.5rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.project-card .progress-track {
+  margin-right: 1rem;
 }
 
 .progress-track {
