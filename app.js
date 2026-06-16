@@ -180,6 +180,8 @@ async function connectSupabase() {
   const isMissingConfig =
     typeof SUPABASE_URL === "undefined" ||
     typeof SUPABASE_ANON_KEY === "undefined" ||
+    !SUPABASE_URL ||
+    !SUPABASE_ANON_KEY ||
     SUPABASE_URL.includes("YOUR_") ||
     SUPABASE_ANON_KEY.includes("YOUR_");
 
