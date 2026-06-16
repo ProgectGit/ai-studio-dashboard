@@ -367,7 +367,7 @@ function renderProjects() {
           <span class="status-pill">${PROJECT_STATUS_LABELS[project.status] || project.status}</span>
         </div>
         <p class="muted">${escapeHtml(project.description || "Опис ще не додано.")}</p>
-        <div>
+        <div class="project-progress">
           <div class="progress-meta">
             <strong>${metrics.progress}%</strong>
             <span class="muted">${metrics.completed} / ${metrics.total} задач</span>
