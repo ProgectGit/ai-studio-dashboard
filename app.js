@@ -362,23 +362,25 @@ function renderProjects() {
     const modules = state.aiModules.filter((item) => item.project_id === project.id).slice(0, 3);
     return `
       <article class="project-card">
-        <div class="item-title-row">
-          <h3>${escapeHtml(project.title)}</h3>
-          <span class="status-pill">${PROJECT_STATUS_LABELS[project.status] || project.status}</span>
-        </div>
-        <p class="muted">${escapeHtml(project.description || "Опис ще не додано.")}</p>
-        <div class="project-progress">
-          <div class="progress-meta">
-            <strong>${metrics.progress}%</strong>
-            <span class="muted">${metrics.completed} / ${metrics.total} задач</span>
+        <div class="project-card-inner">
+          <div class="item-title-row">
+            <h3>${escapeHtml(project.title)}</h3>
+            <span class="status-pill">${PROJECT_STATUS_LABELS[project.status] || project.status}</span>
           </div>
-          <div class="progress-track"><span style="width:${metrics.progress}%"></span></div>
-        </div>
-        <div class="tag-row">${[...tech.map((i) => i.tech_name), ...databases.map((i) => i.database_type), ...modules.map((i) => i.module_type)].map(tag).join("")}</div>
-        <div class="card-actions">
-          <button class="primary-button" type="button" data-action="open" data-id="${project.id}">Відкрити</button>
-          <button class="ghost-button" type="button" data-action="edit" data-id="${project.id}">Редагувати</button>
-          <button class="danger-button" type="button" data-action="delete" data-id="${project.id}">Видалити</button>
+          <p class="muted">${escapeHtml(project.description || "Опис ще не додано.")}</p>
+          <div class="project-progress">
+            <div class="progress-meta">
+              <strong>${metrics.progress}%</strong>
+              <span class="muted">${metrics.completed} / ${metrics.total} задач</span>
+            </div>
+            <div class="progress-track"><span style="width:${metrics.progress}%"></span></div>
+          </div>
+          <div class="tag-row">${[...tech.map((i) => i.tech_name), ...databases.map((i) => i.database_type), ...modules.map((i) => i.module_type)].map(tag).join("")}</div>
+          <div class="card-actions">
+            <button class="primary-button" type="button" data-action="open" data-id="${project.id}">Відкрити</button>
+            <button class="ghost-button" type="button" data-action="edit" data-id="${project.id}">Редагувати</button>
+            <button class="danger-button" type="button" data-action="delete" data-id="${project.id}">Видалити</button>
+          </div>
         </div>
       </article>
     `;
