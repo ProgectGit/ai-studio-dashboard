@@ -121,6 +121,7 @@ button {
 
 .projects-area {
   grid-area: projects;
+  align-self: start;
   min-height: 0;
   padding: 1rem;
   border-radius: 8px;
