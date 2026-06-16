@@ -1,0 +1,17 @@
+{
+  "name": "AI Studio Панель керування",
+  "short_name": "AI Studio",
+  "description": "Панель керування проєктами, задачами, пам'яттю, AI-модулями та технологіями AI Studio.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#0B3D2E",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='36' fill='%230B3D2E'/%3E%3Ccircle cx='96' cy='96' r='52' fill='none' stroke='%23D4AF37' stroke-width='10'/%3E%3Cpath d='M96 39v114M39 96h114' stroke='%236DD6C2' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
