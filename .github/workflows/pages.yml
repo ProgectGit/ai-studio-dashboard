@@ -30,8 +30,8 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || vars.SUPABASE_ANON_KEY }}
         run: |
           cat > config.js <<EOF
-          const SUPABASE_URL = "${SUPABASE_URL}";
-          const SUPABASE_ANON_KEY = "${SUPABASE_ANON_KEY}";
+          window.SUPABASE_URL = "${SUPABASE_URL}";
+          window.SUPABASE_ANON_KEY = "${SUPABASE_ANON_KEY}";
           EOF
 
       - name: Configure Pages
