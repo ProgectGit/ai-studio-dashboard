@@ -68,6 +68,7 @@ button {
   grid-template-areas:
     "summary summary"
     "filters projects";
+  align-items: start;
   gap: 1rem;
   padding: 0 clamp(1rem, 4vw, 3rem) 3rem;
 }
