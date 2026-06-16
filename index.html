@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0B3D2E">
+    <title>AI Studio Панель керування</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">AI Studio</p>
+        <h1>Панель керування</h1>
+      </div>
+      <button class="primary-button" id="newProjectButton" type="button">Новий проєкт</button>
+    </header>
+
+    <main class="layout">
+      <section class="summary-grid" id="summaryGrid" aria-label="Зведення панелі"></section>
+
+      <aside class="filters-panel" aria-label="Фільтри">
+        <div class="panel-heading">
+          <h2>Фільтри</h2>
+          <button class="ghost-button" id="clearFiltersButton" type="button">Очистити</button>
+        </div>
+        <label>
+          Статус
+          <select id="filterStatus"></select>
+        </label>
+        <label>
+          Прогрес
+          <select id="filterProgress">
+            <option value="">Усі</option>
+            <option value="0-25">0-25%</option>
+            <option value="26-50">26-50%</option>
+            <option value="51-75">51-75%</option>
+            <option value="76-100">76-100%</option>
+          </select>
+        </label>
+        <label>
+          Технологія
+          <select id="filterTech"></select>
+        </label>
+        <label>
+          База даних / пам'ять
+          <select id="filterDatabase"></select>
+        </label>
+        <label>
+          AI-модуль
+          <select id="filterAiModule"></select>
+        </label>
+      </aside>
+
+      <section class="projects-area">
+        <div class="section-heading">
+          <h2>Проєкти</h2>
+          <p id="connectionStatus">Підключення до бази даних...</p>
+        </div>
+        <div class="project-grid" id="projectGrid"></div>
+      </section>
+    </main>
+
+    <dialog class="modal" id="projectDialog">
+      <form method="dialog" id="projectForm">
+        <div class="modal-heading">
+          <h2 id="projectFormTitle">Проєкт</h2>
+          <button class="icon-button" id="closeProjectButton" type="button" aria-label="Закрити">x</button>
+        </div>
+        <input type="hidden" id="projectId">
+        <label>
+          Назва
+          <input id="projectTitle" required maxlength="120" autocomplete="off">
+        </label>
+        <label>
+          Опис
+          <textarea id="projectDescription" rows="4"></textarea>
+        </label>
+        <label>
+          Статус
+          <select id="projectStatus"></select>
+        </label>
+        <div class="form-actions">
+          <button class="ghost-button" id="cancelProjectButton" type="button">Скасувати</button>
+          <button class="primary-button" id="saveProjectButton" type="submit">Зберегти</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal wide-modal" id="detailDialog">
+      <div class="modal-heading">
+        <div>
+          <p class="eyebrow" id="detailStatus"></p>
+          <h2 id="detailTitle"></h2>
+        </div>
+        <button class="icon-button" id="closeDetailButton" type="button" aria-label="Закрити">x</button>
+      </div>
+
+      <div class="detail-progress">
+        <div class="progress-meta">
+          <strong id="detailProgressLabel">0%</strong>
+          <span id="detailTaskCount">0 / 0 задач</span>
+        </div>
+        <div class="progress-track"><span id="detailProgressBar"></span></div>
+      </div>
+
+      <div class="detail-grid">
+        <section>
+          <div class="panel-heading">
+            <h3>Задачі</h3>
+          </div>
+          <form class="inline-form" id="taskForm">
+            <input type="hidden" id="taskId">
+            <input id="taskTitle" placeholder="Назва задачі" required>
+            <select id="taskPriority"></select>
+            <select id="taskStatus">
+              <option value="todo">заплановано</option>
+              <option value="in_progress">в роботі</option>
+              <option value="blocked">заблоковано</option>
+              <option value="done">виконано</option>
+            </select>
+            <textarea id="taskDescription" placeholder="Опис"></textarea>
+            <button class="primary-button" type="submit">Зберегти задачу</button>
+          </form>
+          <div class="item-list" id="taskList"></div>
+        </section>
+
+        <section>
+          <h3>База даних / пам'ять</h3>
+          <form class="inline-form compact" id="databaseForm">
+            <select id="databaseType"></select>
+            <button class="primary-button" type="submit">Додати</button>
+          </form>
+          <div class="item-list" id="databaseList"></div>
+        </section>
+
+        <section>
+          <h3>AI-модулі</h3>
+          <form class="inline-form compact" id="aiModuleForm">
+            <select id="aiModuleType"></select>
+            <button class="primary-button" type="submit">Додати</button>
+          </form>
+          <div class="item-list" id="aiModuleList"></div>
+        </section>
+
+        <section>
+          <h3>Технологічний стек</h3>
+          <form class="inline-form compact" id="techForm">
+            <select id="techName"></select>
+            <button class="primary-button" type="submit">Додати</button>
+          </form>
+          <div class="item-list" id="techList"></div>
+        </section>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
