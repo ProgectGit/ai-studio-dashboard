@@ -7,9 +7,16 @@
     <title>AI Studio Панель керування</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="config.js?v=2026-06-16-1"></script>
-    <script src="app.js?v=2026-06-16-1" defer></script>
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+      window.supabase = { createClient };
+
+      const appScript = document.createElement("script");
+      appScript.src = "app.js?v=2026-06-16-2";
+      document.head.append(appScript);
+    </script>
   </head>
   <body>
     <header class="app-header">
