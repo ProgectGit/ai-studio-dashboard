@@ -212,13 +212,23 @@ textarea {
 }
 
 .project-card {
-  display: grid;
+  display: block;
   width: 100%;
-  gap: 0.9rem;
-  padding: 1rem 3rem 1rem 1rem;
+  overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--panel-2);
+}
+
+.project-card-inner {
+  display: grid;
+  min-width: 0;
+  gap: 0.9rem;
+  padding: 1rem 3.5rem 1rem 1rem;
+}
+
+.project-card-inner > * {
+  min-width: 0;
 }
 
 .project-card h3 {
