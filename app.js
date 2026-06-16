@@ -189,14 +189,83 @@ async function connectSupabase() {
     supabaseUrl.includes("YOUR_") ||
     supabaseAnonKey.includes("YOUR_");
 
-  if (isMissingConfig || !window.supabase) {
+  if (isMissingConfig) {
     showConnectionError();
     render();
     return;
   }
 
-  state.supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+  state.supabase = window.supabase?.createClient
+    ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
+    : createRestClient(supabaseUrl, supabaseAnonKey);
   await loadAllData();
+}
+
+function createRestClient(baseUrl, apiKey) {
+  const restUrl = `${baseUrl.replace(/\/$/, "")}/rest/v1`;
+
+  function request(path, options = {}) {
+    return fetch(`${restUrl}${path}`, {
+      ...options,
+      headers: {
+        apikey: apiKey,
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+        ...(options.headers || {})
+      }
+    }).then(async (response) => {
+      const text = await response.text();
+      const data = text ? JSON.parse(text) : null;
+      if (!response.ok) {
+        return { data: null, error: data };
+      }
+      return { data, error: null };
+    }).catch((error) => ({ data: null, error }));
+  }
+
+  return {
+    from(table) {
+      return {
+        select(columns) {
+          const params = new URLSearchParams({ select: columns });
+          return {
+            order(column, options = {}) {
+              params.set("order", `${column}.${options.ascending === false ? "desc" : "asc"}`);
+              return request(`/${table}?${params.toString()}`);
+            }
+          };
+        },
+        insert(payload) {
+          return request(`/${table}`, {
+            method: "POST",
+            body: JSON.stringify(Array.isArray(payload) ? payload : [payload])
+          });
+        },
+        update(payload) {
+          return {
+            eq(column, value) {
+              const params = new URLSearchParams({ [column]: `eq.${value}` });
+              return request(`/${table}?${params.toString()}`, {
+                method: "PATCH",
+                body: JSON.stringify(payload)
+              });
+            }
+          };
+        },
+        delete() {
+          return {
+            eq(column, value) {
+              const params = new URLSearchParams({ [column]: `eq.${value}` });
+              return request(`/${table}?${params.toString()}`, {
+                method: "DELETE"
+              });
+            }
+          };
+        }
+      };
+    }
+  };
 }
 
 async function loadAllData() {
@@ -218,7 +287,7 @@ async function loadAllData() {
     render();
   } catch (error) {
     console.error(error);
-    showConnectionError();
+    showConnectionError(error);
     render();
   }
 }
@@ -233,10 +302,13 @@ async function query(table, orderColumn) {
   return data || [];
 }
 
-function showConnectionError() {
+function showConnectionError(error = null) {
+  const detail = error?.message || error?.msg || error?.details || error?.hint || "";
   elements.connectionStatus.textContent =
-    "Не вдалося підключитися до бази даних. Перевір SUPABASE_URL і SUPABASE_ANON_KEY.";
-  showToast("Не вдалося підключитися до бази даних. Перевір SUPABASE_URL і SUPABASE_ANON_KEY.");
+    detail
+      ? `Не вдалося підключитися до бази даних: ${detail}`
+      : "Не вдалося підключитися до бази даних. Перевір SUPABASE_URL і SUPABASE_ANON_KEY.";
+  showToast(elements.connectionStatus.textContent);
 }
 
 function render() {
